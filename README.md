@@ -1,4 +1,4 @@
-# deploy-cli-service
+# jacob-deploy  改自deploy-cli-service工具
 
 前端一键自动化部署脚手架服务，支持开发、测试、生产多环境配置。配置好后一键即可自动完成部署。
 
@@ -9,27 +9,27 @@
 
 ## 1 安装
 
-全局安装 deploy-cli-service
+全局安装 jacob-deploy
 
 ```shell
-npm install deploy-cli-service -g
+npm install jacob-deploy -g
 ```
-本地安装 deploy-cli-service
+本地安装 jacob-deploy
 
 ```shell
-npm install deploy-cli-service --save-dev
+npm install jacob-deploy --save-dev
 ```
 
 查看版本，表示安装成功
 
 ```javascript
-deploy - cli - service - v
+jacob-deploy - v
 ```
 
 注：本地安装的需要在调用前加 `npx`
 
 ```shell
-npx deploy-cli-service -v
+npx jacob-deploy -v
 ```
 
 ![](https://ae01.alicdn.com/kf/U943f01b07cdd492499f3186582d813c8n.jpg)
@@ -39,7 +39,7 @@ npx deploy-cli-service -v
 #### 2.1 查看帮助
 
 ```shell
-deploy-cli-service -h
+jacob-deploy -h
 ```
 
 ![](https://ae01.alicdn.com/kf/Ud0667faaa3ef44939c8c016eb8a1cc026.jpg)
@@ -47,16 +47,16 @@ deploy-cli-service -h
 #### 2.2 初始化配置文件（在项目目录下）
 
 ```shell
-deploy-cli-service init # 或者使用简写 deploy-cli-service i
+jacob-deploy init # 或者使用简写 jacob-deploy i
 ```
 
-根据提示填写内容，会在项目根目录下生成 `deploy.config.js` 文件，初始化配置只会生成 `dev` (开发环境)、`test` (测试环境)、`prod` (生产环境) 三个配置，再有其他配置可参考模板自行配置。
+根据提示填写内容，会在项目根目录下生成 `deploy.js` 文件，初始化配置只会生成 `dev` (开发环境)、`test` (测试环境)、`prod` (生产环境) 三个配置，再有其他配置可参考模板自行配置。
 
 ![](https://ae01.alicdn.com/kf/Uf9bb311b13764e4aa25c51d57b52bdc2Z.jpg)
 
 #### 2.3 手动创建或修改配置文件
 
-在项目根目录下手动创建 `deploy.config.js` 文件，复制以下代码按情况修改即可。
+在项目根目录下手动创建 `deploy.js` 文件，复制以下代码按情况修改即可。
 
 ```javascript
 module.exports = {
@@ -77,6 +77,7 @@ module.exports = {
     bakDir: '/usr/local/nginx/backup', // 备份路径 (打包前备份之前部署目录 最终备份路径为 /usr/local/nginx/backup/html.zip)
     isRemoveRemoteFile: true, // 是否删除远程文件（默认true）
     isRemoveLocalFile: true // 是否删除本地文件（默认true）
+    privateKey:'' //密钥
   },
   test: {
     // 环境对象
@@ -90,7 +91,8 @@ module.exports = {
     webDir: '/usr/local/nginx/html', // 服务器部署路径（不可为空或'/'）
     bakDir: '/usr/local/nginx/backup', // 备份路径 (打包前备份之前部署目录 最终备份路径为 /usr/local/nginx/backup/html.zip)
     isRemoveRemoteFile: true, // 是否删除远程文件（默认true）
-    isRemoveLocalFile: true // 是否删除本地文件（默认true）
+    isRemoveLocalFile: true, // 是否删除本地文件（默认true）
+    privateKey:'' //密钥
   },
   prod: {
     // 环境对象
@@ -104,7 +106,8 @@ module.exports = {
     webDir: '/usr/local/nginx/html', // 服务器部署路径（不可为空或'/'）
     bakDir: '/usr/local/nginx/backup', // 备份路径 (打包前备份之前部署目录 最终备份路径为 /usr/local/nginx/backup/html.zip)
     isRemoveRemoteFile: true, // 是否删除远程文件（默认true）
-    isRemoveLocalFile: true // 是否删除本地文件（默认true）
+    isRemoveLocalFile: true, // 是否删除本地文件（默认true）
+    privateKey:'' //密钥
   }
 }
 ```
@@ -114,7 +117,7 @@ module.exports = {
 注意：命令后面需要加 `--mode` 环境对象 （如：`--mode dev`）
 
 ```shell
-deploy-cli-service deploy --mode dev # 或者使用 deploy-cli-service d --mode dev
+jacob-deploy deploy --mode dev # 或者使用 jacob-deploy d --mode dev
 ```
 
 输入 `Y` 确认后即可开始自动部署，看见如下提示说明部署完成
@@ -123,10 +126,10 @@ deploy-cli-service deploy --mode dev # 或者使用 deploy-cli-service d --mode 
 
 #### 2.5 集群部署 （在项目目录下）
 
-注意：集群配置需要在 `deploy-cli-service` 中 配置 `cluster` 字段 （如：`cluster: ['dev', 'test', 'prod']`）
+注意：集群配置需要在 `jacob-deploy` 中 配置 `cluster` 字段 （如：`cluster: ['dev', 'test', 'prod']`）
 
 ```shell
-deploy-cli-service deploy # 或者使用 deploy-cli-service d
+jacob-deploy deploy # 或者使用 jacob-deploy d
 ```
 
 输入 `Y` 确认后即可开始自动部署，看见如下提示说明部署完成
@@ -150,10 +153,10 @@ deploy-cli-service deploy # 或者使用 deploy-cli-service d
   "serve": "vue-cli-service serve",
   "build": "vue-cli-service build",
   "lint": "vue-cli-service lint",
-  "deploy": "deploy-cli-service deploy",
-  "deploy:dev": "deploy-cli-service deploy --mode dev",
-  "deploy:test": "deploy-cli-service deploy --mode test",
-  "deploy:prod": "deploy-cli-service deploy --mode prod"
+  "deploy": "jacob-deploy deploy",
+  "deploy:dev": "jacob-deploy deploy --mode dev",
+  "deploy:test": "jacob-deploy deploy --mode test",
+  "deploy:prod": "jacob-deploy deploy --mode prod"
 }
 ```
 
