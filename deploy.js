@@ -1,20 +1,19 @@
 module.exports = {
-  projectName: 'deploy-cli-service',
-  // privateKey: 'C:\\Users\\86728/.ssh/id_rsa',
+  projectName: 'jacob-deploy',
   passphrase: '',
   cluster: [],
   dev: {
     name: '开发环境',
-    script: '',
-    host: '192.168.100.11',
+    script: 'npm run build:dev',
+    host: '',
     port: 22,
     username: 'root',
-    password: 'gkjxhz888',
+    password: '',
     distPath: 'dist',
-    webDir: '/opt/demo/html',
-    bakDir: '/opt/demo/backup',
+    webDir: '',
+    bakDir: '',
     isRemoveRemoteFile: true,
     isRemoveLocalFile: true,
-    privateKey:'C:\\Users\\86728/.ssh/id_rsa'
+    privateKey: 'C:\\Users\\86728/.ssh/id_rsa'
   }
 }
